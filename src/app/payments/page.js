@@ -3,11 +3,35 @@
 import React from "react";
 import { NavbarDemo } from "@/components/ui/navbar-menu";
 import Image from "next/image";
+import { loadStripe } from "@stripe/stripe-js";
+
+// Load Stripe with your public key
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const PricingPage = () => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert("Form submitted!");
+  // Function to handle checkout
+  const handleCheckout = async (priceId) => {
+    const stripe = await stripePromise;
+
+    try {
+      // Call the API to create a checkout session
+      const response = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId }), // Pass the price ID
+      });
+
+      const session = await response.json();
+
+      // Redirect to Stripe Checkout
+      if (session.id) {
+        await stripe.redirectToCheckout({ sessionId: session.id });
+      } else {
+        alert("Failed to create checkout session!");
+      }
+    } catch (error) {
+      console.error("Error during checkout:", error);
+    }
   };
 
   return (
@@ -25,57 +49,58 @@ const PricingPage = () => {
           </p>
         </div>
       </section>
+{/* Pricing Section */}
+<section className="py-12 px-4 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+  {/* Merchant Services Card */}
+  <div className="rounded-[22px] p-4 sm:p-10 bg-white dark:bg-zinc-900 flex flex-col items-center shadow-lg">
+    <div className="relative w-full h-[300px]">
+      <Image
+        src="/images/merchant-services.webp"
+        alt="Merchant Services"
+        layout="fill"
+        className="object-contain rounded-lg"
+      />
+    </div>
+    <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
+      Merchant Services
+    </p>
+    <p className="text-center text-3xl font-bold text-teal-500 mb-4 mt-4">
+      $499/year
+    </p>
+    <button
+      onClick={() => handleCheckout("price_1QhrtXC2bs2ADXbgztRRi6Jf")} // Correct test Price ID
+      className="rounded-full px-6 py-2 text-white bg-teal-500 hover:bg-teal-600 mt-4 text-xs font-bold"
+    >
+      Buy
+    </button>
+  </div>
 
-      {/* Pricing Section */}
-      <section className="py-12 px-4 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Merchant Services Card */}
-        <div className="rounded-[22px] p-4 sm:p-10 bg-white dark:bg-zinc-900 flex flex-col items-center shadow-lg">
-          <div className="relative w-full h-[300px]">
-            <Image
-              src="/images/merchant-services.webp"
-              alt="Merchant Services"
-              layout="fill"
-              className="object-contain rounded-lg"
-            />
-          </div>
-          <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
-            Merchant Services
-          </p>
-          <p className="text-center text-3xl font-bold text-teal-500 mb-4 mt-4">
-            $499/year
-          </p>
-          <button
-            onClick={() => (window.location.href = "/payments")}
-            className="rounded-full px-6 py-2 text-white bg-teal-500 hover:bg-teal-600 mt-4 text-xs font-bold"
-          >
-            Buy
-          </button>
-        </div>
+  {/* Startup Services Card */}
+  <div className="rounded-[22px] p-4 sm:p-10 bg-white dark:bg-zinc-900 flex flex-col items-center shadow-lg">
+    <div className="relative w-full h-[300px]">
+      <Image
+        src="/images/startup-services.webp"
+        alt="Startup Services"
+        layout="fill"
+        className="object-contain rounded-lg"
+      />
+    </div>
+    <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
+      Startup Services
+    </p>
+    <p className="text-center text-3xl font-bold text-purple-500 mb-4 mt-4">
+      $199/year
+    </p>
+    <button
+      onClick={() => handleCheckout("price_1QhrtXC2bs2ADXbgztRRi6Jf")} // Same test Price ID for now
+      className="rounded-full px-6 py-2 text-white bg-purple-500 hover:bg-purple-600 mt-4 text-xs font-bold"
+    >
+      Buy
+    </button>
+  </div>
+</section>
 
-        {/* Startup Services Card */}
-        <div className="rounded-[22px] p-4 sm:p-10 bg-white dark:bg-zinc-900 flex flex-col items-center shadow-lg">
-          <div className="relative w-full h-[300px]">
-            <Image
-              src="/images/startup-services.webp"
-              alt="Startup Services"
-              layout="fill"
-              className="object-contain rounded-lg"
-            />
-          </div>
-          <p className="text-base sm:text-xl text-black mt-4 mb-2 dark:text-neutral-200">
-            Startup Services
-          </p>
-          <p className="text-center text-3xl font-bold text-purple-500 mb-4 mt-4">
-            $199/year
-          </p>
-          <button
-            onClick={() => (window.location.href = "/payments")}
-            className="rounded-full px-6 py-2 text-white bg-purple-500 hover:bg-purple-600 mt-4 text-xs font-bold"
-          >
-            Buy
-          </button>
-        </div>
-      </section>
+
 
       {/* Features Section */}
       <section className="py-12 px-4 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -121,7 +146,10 @@ const PricingPage = () => {
         </h2>
         <form
           className="bg-white shadow-md rounded-lg p-6 dark:bg-gray-800"
-          onSubmit={handleSubmit}
+          onSubmit={(e) => {
+            e.preventDefault();
+            alert("Form submitted!");
+          }}
         >
           <div className="mb-4">
             <label className="block text-gray-700 font-medium mb-2 dark:text-gray-300">

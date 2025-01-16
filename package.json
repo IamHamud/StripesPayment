@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-three/fiber": "^8.17.12",
+    "@stripe/stripe-js": "^5.5.0",
     "@tabler/icons-react": "^3.28.1",
     "@tsparticles/engine": "^3.7.1",
     "@tsparticles/react": "^3.0.0",
@@ -24,6 +25,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-responsive-carousel": "^3.2.23",
+    "stripe": "^17.5.0",
     "swiper": "^11.2.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
