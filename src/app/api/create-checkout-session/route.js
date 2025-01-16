@@ -14,7 +14,7 @@ export async function POST(req) {
     // Log Stripe Secret Key to ensure it's loaded (do not do this in production)
     console.log("Stripe Secret Key:", process.env.STRIPE_SECRET_KEY);
 
-    // Log success and cancel URLs
+    // Log success and cancel URLs for debugging
     console.log("Success URL:", `${process.env.NEXT_PUBLIC_DOMAIN}/success`);
     console.log("Cancel URL:", `${process.env.NEXT_PUBLIC_DOMAIN}/cancel`);
 
@@ -23,8 +23,8 @@ export async function POST(req) {
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/cancel`,
+      success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success`, // Make sure this points to your live domain
+      cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/cancel`, // Same for cancel URL
     });
 
     console.log("Stripe Checkout session created successfully:", session.id);
