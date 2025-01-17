@@ -53,7 +53,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="mt-16 py-4 w-full bg-gray-100 text-center text-gray-700">
-        <p>&copy; {new Date().getFullYear()} Motion Pexels FZ-LLC  All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Motion Pexels FZ-LLC All rights reserved.</p>
         <p className="mt-2">
           Follow us:{" "}
           <a
