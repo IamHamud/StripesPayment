@@ -16,9 +16,10 @@ export default function CancelPage() {
           <h2 className="text-2xl relative z-20 md:text-4xl lg:text-7xl font-bold text-center text-black font-sans tracking-tight">
             Payment Canceled
           </h2>
-          <p className="mt-4 text-lg sm:text-xl max-w-2xl mx-auto text-black">
-            Your payment was not completed. If this was an error, you can try again or contact our support team for assistance.
-          </p>
+          <p className="mt-4 text-lg sm:text-xl max-w-2xl mx-auto text-black flex items-center justify-center text-center">
+  Your payment was not completed. If this was an error, you can try again or contact our support team for assistance.
+</p>
+
           <div className="mt-6 flex justify-center gap-4">
             {/* Back to Home Button */}
             <button

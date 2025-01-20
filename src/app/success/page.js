@@ -55,15 +55,16 @@ export default function SuccessPage() {
             </h2>
           ) : sessionDetails ? (
             <>
-              <h2 className="text-2xl relative z-20 md:text-4xl lg:text-7xl font-bold text-center text-black font-sans tracking-tight">
-                Payment Successful!
-              </h2>
-              <p className="mt-4 text-lg sm:text-xl max-w-2xl mx-auto text-black">
-                Thank you for your payment, {sessionDetails.customer_details?.name || "Customer"}.
-              </p>
-              <p className="mt-2 text-lg sm:text-xl max-w-2xl mx-auto text-black">
-                A confirmation email has been sent to {sessionDetails.customer_details?.email || "your email"}.
-              </p>
+      <h2 className="text-2xl relative z-20 md:text-4xl lg:text-7xl font-bold text-center text-black font-sans tracking-tight">
+  Payment Successful!
+</h2>
+<p className="mt-4 text-lg sm:text-xl max-w-2xl mx-auto text-black flex items-center justify-center text-center">
+  Thank you for your payment, {sessionDetails.customer_details?.name || "Customer"}.
+</p>
+<p className="mt-2 text-lg sm:text-xl max-w-2xl mx-auto text-black flex items-center justify-center text-center">
+  A confirmation email has been sent to {sessionDetails.customer_details?.email || "your email"}.
+</p>
+
               <button
                 className="mt-6 p-[3px] relative"
                 onClick={() => (window.location.href = "/")}
